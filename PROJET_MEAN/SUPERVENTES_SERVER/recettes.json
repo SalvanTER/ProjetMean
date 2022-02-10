@@ -1,0 +1,8 @@
+[
+    {"nom" : "crêpes", "ingredients" : ["oeufs", "farine", "sucre", "laits", "beurre"], "cout" : 10, "img" : "https://assets.afcdn.com/story/20220121/2157110_w944h530c1cx1061cy707cxt0cyt0cxb2121cyb1414.webp"},
+    {"nom" : "fondant au chocolat", "ingredients" : ["chocolat", "sucre", "oeufs"], "cout" : 5, "img" : "https://assets.afcdn.com/recipe/20161122/21151_w768h583c1cx1872cy2808.webp"},
+    {"nom" : "mousse au chocolat blanc", "ingredients" : ["chocolat blanc", "feuille de gelatine", "sucre", "oeufs"], "cout" : 8, "img" : "https://assets.afcdn.com/recipe/20160317/57770_w1200h800c1cx2592cy1728.webp"},
+    {"nom" : "tartiflette", "ingredients" : ["pomme de terre", "oignons", "fromage", "huile", "ail", "sel", "poivre", "lardons"], "cout" : 20, "img" : "https://assets.afcdn.com/recipe/20160401/38946_w1200h800c1cx2690cy1793.webp"},
+    {"nom" : "pates carbonara", "ingredients" : ["Pates", "creme fraiche","sel", "poivre", "lardons", "oignons", "oeufs"], "cout" : 16, "img" : "https://assets.afcdn.com/recipe/20211214/125831_w1200h1200c1cx866cy866cxb1732cyb1732.webp"},
+    {"nom" : "rougail saucisse", "ingredients" : ["tomates", "oignons", "ail", "thym", "poivre", "sel", "curcuma", "piment", "huile", "saucisses", "laurier"], "cout" : 15, "img" : "https://assets.afcdn.com/recipe/20200219/107902_w1200h800c1cx4330cy2886cxb8660cyb5773.webp", "author" : "Corentin"}
+]
