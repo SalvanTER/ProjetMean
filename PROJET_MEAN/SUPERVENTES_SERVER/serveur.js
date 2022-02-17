@@ -1,4 +1,5 @@
 const express = require('express');
+const _ = require('lodash');
 const app     = express();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -17,8 +18,8 @@ const url         = "mongodb://localhost:27017";
 MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
     let db = client.db("SITERECETTES");
     /* Liste des produits */
-    app.get("/recettes", (req,res) => {
-        console.log("/recettes");
+    app.get("/allRecettes", (req,res) => {
+        console.log("/allRecettes");
         try {
             db.collection("recettes").find().toArray((err, documents) => {
                 res.end(JSON.stringify(documents));
@@ -28,21 +29,33 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
             res.end(JSON.stringify([]));
         }
     });
-    app.get("/recettes/:recette", (req,res) => {
-        let recette = req.params.recette;
-            console.log("/recettes/recette/"+recette);
-            try {
-                db.collection("recettes").find({nom:recette.toLowerCase()}).toArray((err, documents) => {
-                    res.end(JSON.stringify(documents));
-                });
-            } catch(e) {
-                console.log("Erreur sur /recettes/"+ingredient+" : "+ e);
-                res.end(JSON.stringify([]));
-            }
+    app.get("/3randomRecettes", (req,res) => {
+        console.log("/3randomRecettes");
+        try {
+            db.collection("recettes").find().toArray((err, documents) => {
+                res.end(JSON.stringify(_.sampleSize(documents, 3)));
+            });
+        } catch(e) {
+            console.log("Erreur sur /recettes : " + e);
+            res.end(JSON.stringify([]));
+        }
+    });
+    app.get("/recettes/:keyword", (req,res) => {
+        let keyword = req.params.keyword;
+        console.log("/recettes/"+keyword);
+        try {
+            console.log(keyword.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+            db.collection("recettes").find({ nom : { $regex : keyword.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")} }).toArray((err, documents) => {
+                res.end(JSON.stringify(documents));
+            });
+        } catch(e) {
+            console.log("Erreur sur /recettes/"+keyword+" : "+ e);
+            res.end(JSON.stringify([]));
+        }
         });
-    app.get("/recettes/ingredients/:ingredient", (req,res) => {
+    app.get("/ingredients/:ingredient", (req,res) => {
 	let ingredient = req.params.ingredient;
-        console.log("/recettes/ingredients/"+ingredient);
+        console.log("/ingredients/"+ingredient);
         try {
             db.collection("recettes").find({ingredients:ingredient.toLowerCase()}).toArray((err, documents) => {
                 res.end(JSON.stringify(documents));
@@ -52,9 +65,9 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
             res.end(JSON.stringify([]));
         }
     });
-    app.get("/recettes/prix/:prix", (req,res) => {
+    app.get("/prix/:prix", (req,res) => {
         let prix = req.params.prix;
-            console.log("/recettes/prix/"+prix);
+            console.log("/prix/"+prix);
             try {
                 db.collection("recettes").find({cout : parseInt(prix) }).toArray((err, documents) => {
                     res.end(JSON.stringify(documents));
