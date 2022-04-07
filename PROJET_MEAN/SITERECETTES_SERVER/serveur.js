@@ -17,7 +17,6 @@ const url         = "mongodb://localhost:27017";
 
 MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
     let db = client.db("SITERECETTES");
-    /* Liste des produits */
     app.get("/allRecettes", (req,res) => {
         console.log("/allRecettes");
         try {
@@ -44,7 +43,6 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
         let keyword = req.params.keyword;
         console.log("/recettes/"+keyword);
         try {
-            console.log(keyword.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
             db.collection("recettes").find({ nom : { $regex : keyword.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")} }).toArray((err, documents) => {
                 res.end(JSON.stringify(documents));
             });
@@ -65,35 +63,18 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
             res.end(JSON.stringify([]));
         }
     });
-    app.get("/prix/:prix", (req,res) => {
-        let prix = req.params.prix;
-            console.log("/prix/"+prix);
+        app.get("/auteur/:auteur", (req,res) => {
+            let auteur = req.params.auteur;
+            console.log("/auteur/"+auteur);
             try {
-                db.collection("recettes").find({cout : parseInt(prix) }).toArray((err, documents) => {
+                db.collection("recettes").find({ author : { $regex : auteur.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")} }).toArray((err, documents) => {
                     res.end(JSON.stringify(documents));
                 });
             } catch(e) {
-                console.log("Erreur sur /recettes/"+prix+" : "+ e);
+                console.log("Erreur sur /auteur/"+auteur+" : "+ e);
                 res.end(JSON.stringify([]));
             }
-        });
-    /* Liste des catégories de produits */
-    app.get("/categories", (req,res) => {
-        console.log("/categories");
-	categories = [];
-        try {
-            db.collection("produits").find().toArray((err, documents) => {
-		for (let doc of documents) {
-                    if (!categories.includes(doc.type)) categories.push(doc.type); 
-		}
-		console.log("Renvoi de"+JSON.stringify(categories));
-                res.end(JSON.stringify(categories));
             });
-        } catch(e) {
-            console.log("Erreur sur /categories : " + e);
-            res.end(JSON.stringify([]));
-        }
-    });
 
     /* Connexion */
     app.post("/user/connexion", (req,res) => {
@@ -103,9 +84,41 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
             .find(req.body)
             .toArray((err, documents) => {
                 if (documents.length == 1)
-                    res.end(JSON.stringify({"resultat": 1, "message": "Authentification réussie"}));
-                else res.end(JSON.stringify({"resultat": 0, "message": "Email et/ou mot de passe incorrect"}));
+                    res.end(JSON.stringify({"resultat": documents[0].username, "message": "Authentification réussie"}));
+                else res.end(JSON.stringify({"resultat": "", "message": "Email et/ou mot de passe incorrect"}));
             });
+        } catch (e) {
+            res.end(JSON.stringify({"resultat": 0, "message": e}));
+        }
+    });
+    /*Inscription*/
+    app.post("/user/inscription", (req,res) => {
+        console.log("/utilisateurs/inscription avec "+JSON.stringify(req.body));
+        try {
+            db.collection("users")
+            .find({email:req.body.email})
+            .toArray((err, documents) => {
+                if (documents.length == 1){
+                    res.end(JSON.stringify({"resultat": 2, "message": "Compte déjà existant"}));
+                }
+                else 
+                {   
+                    db.collection("users").insertOne(req.body);
+                    res.end(JSON.stringify({"resultat": 1, "message": "Inscription réussi !"}));
+                }
+            });
+        } catch (e) {
+            res.end(JSON.stringify({"resultat": 0, "message": e}));
+        }
+    });
+    app.post("/recette/add", (req,res) => {
+        console.log("ajout de la recette "+JSON.stringify(req.body));
+        try {
+            db.collection("recettes")
+            .find()
+            .toArray((err, documents) => {
+                db.collection("recettes").insertOne(req.body);
+                });
         } catch (e) {
             res.end(JSON.stringify({"resultat": 0, "message": e}));
         }

@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-/*
+
 const httpOptions = {
   headers: new HttpHeaders({
     "Content-Type":  "application/json",
     "Access-Control-Allow-Origin": "*"
   })
 };
-*/
-
 @Injectable({
   providedIn: 'root'
 })
@@ -21,14 +18,23 @@ export class RecettesService {
 
     constructor(private http: HttpClient) { }
 
-    getRandomRecettes(): Observable<any> {
-      return this.http.get(this.urlBase+'3randomRecettes');
+  getRandomRecettes(): Observable<any> {
+    return this.http.get(this.urlBase+'3randomRecettes');
   }
-    getRecettes(): Observable<any> {
-        return this.http.get(this.urlBase+'allRecettes');
-    }
-
-    getRecettesParIngredients(categorie: string): Observable<any> {
-        return this.http.get(this.urlBase+'recettes/ingredients/'+categorie);
-    }
+  getRecettes(): Observable<any> {
+      return this.http.get(this.urlBase+'allRecettes');
+  }
+  getRecettesByKeyword(keyword : string): Observable<any> {
+    return this.http.get(this.urlBase+'recettes/' + keyword);
+  }
+  getRecettesParIngredients(categorie: string): Observable<any> {
+      return this.http.get(this.urlBase+'ingredients/'+categorie);
+  }
+  getRecettesParAuteur(auteur: string): Observable<any> {
+    return this.http.get(this.urlBase+'auteur/'+auteur);
+  }
+  addRecette(recette:any): Observable<any> 
+  {
+    return this.http.post(this.urlBase+'recette/add', JSON.stringify(recette), httpOptions);
+  }
 }

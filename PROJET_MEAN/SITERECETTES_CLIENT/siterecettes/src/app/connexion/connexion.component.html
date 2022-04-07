@@ -1,0 +1,52 @@
+<div class="main">
+    <form (ngSubmit)="onSubmitConnexion()" #inscriptionForm="ngForm" ngNativeValidate>
+      <h2 class="h2">
+        CONNEXION
+      </h2>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="utilisateur['email']" name="email">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password"  required class="form-control" id="exampleInputPassword1" placeholder="Password" [(ngModel)]="utilisateur['password']" name="password">
+        </div>
+        <div *ngIf="connexionEchoue == 1; then thenBlockConnexion else elseBlockConnexion"></div>
+          <ng-template #thenBlockConnexion><p style="color: red;">Connexion failed !</p></ng-template>
+          <ng-template #elseBlockConnexion></ng-template>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <h3 id="or">
+        OU
+      </h3>
+      <form (ngSubmit)="onSubmitInscription()" #inscriptionForm="ngForm" ngNativeValidate>
+        <h2 class="h2">
+          INSCRIPTION
+        </h2>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Pseudo</label>
+          <input type="text" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="inscription['username']" placeholder="Enter pseudo" name="pseudo">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="inscription['email']" placeholder="Enter email" name="mail-inscription">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" required class="form-control" id="exampleInputPassword1" #pwd placeholder="Password"  name="password-inscription">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword2">Confirm password</label>
+          <input type="password" required class="form-control" id="exampleInputPassword2" #confirmPwd placeholder="Comfirm password" [(ngModel)]="inscription['password']" name="conf-pwd">
+        </div>
+        <div *ngIf="confirmPwd.value == pwd.value; then thenBlock else elseBlock"></div>
+          <ng-template #thenBlock></ng-template>
+          <ng-template #elseBlock><p style="color: red;">Confirm password don't match.</p></ng-template>
+          <container-element [ngSwitch]="inscriptionStatus">
+            <p *ngSwitchCase="1" style="color: red;">Inscription réussie.</p>
+            <p *ngSwitchCase="2" style="color: red;">Inscription échoué.</p>
+            <p *ngSwitchDefault></p>
+          </container-element>          
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>

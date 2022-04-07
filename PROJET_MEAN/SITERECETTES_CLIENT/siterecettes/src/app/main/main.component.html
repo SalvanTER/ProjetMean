@@ -1,22 +1,19 @@
 <h1>SITE RECETTE</h1>
 <div class="column  justify-content-center main">
-
-  <div class="input-group search_recette">
-    <input type="search" class="form-control rounded" placeholder="Recherchez une recette..." aria-label="Search" aria-describedby="search-addon" />
-    <button type="button" class="btn btn-outline-primary"><a routerLink="/recettes"> search</a></button>
-  </div>
-
   <h2 class="h2 justify-content-center">Suggestion de recettes</h2>
-<div class="row d-flex align-items-center">
-<div *ngFor="let recette of recettes">
-  <div class="card" style="width: 18rem; margin: 5px; border-radius: 20px;">
-    <img class="card-img-top" [src]="recette['img']" alt="Card image cap" style = "border-top-left-radius: 20px; border-top-right-radius: 20px;">
-    <div class="card-body">
-      <h5 class="card-title" style="font-weight: bold; text-align: center;">{{recette['nom']}}</h5>
-      <p class="card-text"><span id="ingr">Ingrédients: </span>{{recette['ingredients']}}</p>
-      <h6>{{recette['author']}}</h6>
+  <div class="row d-flex align-items-center">
+    <div *ngFor="let recette of recettes">
+      <div class="card" style="width: 18rem; margin: 5px; border-radius: 20px;">
+        <img class="card-img-top" [src]="recette['img']" alt="Card image cap" style = "border-top-left-radius: 20px; border-top-right-radius: 20px;">
+        <div class="card-body">
+          <h5 class="card-title" style="font-weight: bold; text-align: center;">{{recette['nom']}}</h5>
+          <p class="card-text"><span id="ingr">Ingrédients: </span>
+            <div *ngFor="let ingredient of recette['ingredients']">
+              -{{ingredient}}
+            </div>
+          <h6>{{recette['author']}}</h6>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 </div>

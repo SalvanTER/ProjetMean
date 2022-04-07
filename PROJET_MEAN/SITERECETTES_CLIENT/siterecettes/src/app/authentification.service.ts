@@ -34,4 +34,7 @@ export class AuthentificationService {
   verificationConnexion(identifiants:any): Observable<any> {
       return this.http.post(this.baseURL+'user/connexion', JSON.stringify(identifiants), httpOptions);
   }
+  inscription(identifiants:any): Observable<any> {
+    return this.http.post(this.baseURL+'user/inscription', JSON.stringify(identifiants), httpOptions);
+}
 }

@@ -9,12 +9,18 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthentificationService } from './authentification.service';
 import { RecettesService } from './recettes.service';
+import { RecettesComponent } from './recettes/recettes.component';
+import { ConnexionComponent } from './connexion/connexion.component';
+import { AddRecetteComponent } from './add-recette/add-recette.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    MainComponent
+    MainComponent,
+    RecettesComponent,
+    ConnexionComponent,
+    AddRecetteComponent
   ],
   imports: [
     BrowserModule,

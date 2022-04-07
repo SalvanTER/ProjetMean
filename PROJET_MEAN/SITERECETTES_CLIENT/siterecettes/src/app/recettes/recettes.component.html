@@ -1,0 +1,34 @@
+<h1>SITE RECETTE</h1>
+
+<div class="column  justify-content-center main">
+  <h4 style="text-align: center;">Recherche avancée</h4>
+  <div style="margin: 25px;">
+      <form class="input-group" ngNativeValidate>
+        <select #critere (click) ="getCritere(critere.value)" class="select" data-mdb-filter="true">
+          <option value="1">Recette</option>
+          <option value="2">Ingrédient</option>
+          <option value="3">Auteur</option>
+        </select>
+        <input type="search" required style="width: 30%;" #advSearch (keyup)="MAJChampAdvSearch(advSearch.value)" class="form-control rounded" placeholder="" aria-label="Search" aria-describedby="search-addon" />
+        <input type="submit" #submitAdvSearch (click) = "chercheRecette()" class="btn btn-outline-primary" value="Recherher"/>
+      </form>
+  </div>
+  <div class="row d-flex justify-content-center">
+    <div *ngIf="recettes.length == 0">
+      Aucune recette trouvée !
+    </div>
+    <div *ngFor="let recette of recettes">
+      <div class="card" style="width: 18rem; margin: 5px; border-radius: 20px;">
+        <img class="card-img-top" [src]="recette['img']" alt="Card image cap" style = "border-top-left-radius: 20px; border-top-right-radius: 20px;">
+        <div class="card-body">
+          <h5 class="card-title" style="font-weight: bold; text-align: center;">{{recette['nom']}}</h5>
+          <p class="card-text"><span id="ingr">Ingrédients: </span>
+            <div *ngFor="let ingredient of recette['ingredients']">
+              -{{ingredient}}
+            </div>
+          <h6>{{recette['author']}}</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { Double } from 'mongodb';
+import { ActivatedRoute, Params, Route, Router } from '@angular/router';
 import { AuthentificationService } from '../authentification.service';
 import { RecettesService } from '../recettes.service';
 class Recette {
@@ -25,14 +24,17 @@ class Recette {
 
 export class MainComponent implements OnInit {
   public recettes : Recette[] = new Array();
+  public keywordRecette : String = "";
   constructor(private route: ActivatedRoute,
     private authService: AuthentificationService,
-    private recettesService: RecettesService) { }
+    private recettesService: RecettesService, private router : Router) { }
 
     ngOnInit() {
       this.recettesService.getRandomRecettes().subscribe(recettes => {
            this.recettes = recettes;
       });
     }
-
+    onSubmit() {
+      console.log("test");
+    }
 }

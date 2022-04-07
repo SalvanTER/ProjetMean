@@ -1,0 +1,40 @@
+<h1>SITE RECETTE</h1>
+<form id="form"class="d-flex flex-column justify-content-center"(ngSubmit)="onSubmitRecette()" #inscriptionForm="ngForm" ngNativeValidate>
+    <h2 class="h2">
+      Ajouter une recette
+    </h2>
+    <div class="form-group d-flex flex-column justify-content-center">
+      <label for="inputNameRecette">Nom de la recette</label>
+      <input type="text" required class="form-control" id="inputNameRecette" aria-describedby="emailHelp" [(ngModel)]="recette['nom']" placeholder="Entrez la recette" name="recetteNom">
+    </div>
+    <div class="form-group d-flex flex-column justify-content-center">
+      <label for="ingredient">Ingrédients:</label>
+      <div *ngIf="recette['ingredients']?.length == 0">
+        <p id="errorIngredient">Entrez au moins un ingrédient.</p>
+      </div>
+      <ul>
+        <div *ngFor="let ingredient of recette['ingredients']">
+          <li>{{ingredient}}</li>
+        </div>
+      </ul>
+      <input #ingredientField type="text" required class="form-control" id="inputNameIngredient" aria-describedby="emailHelp"  placeholder="Nom de l'ingrédient" name="ingredientNom" >
+      <div class="d-flex justify-content-around">
+        <input id="buttonAdd"  type="button" (click)="addIngredient(ingredientField.value)" value="Ajouter">
+        <input id="buttonRemove" type="button" (click)="deleteIngredient()" value="Supprimer">
+      </div>
+    </div>
+    <label for="basic-url">Entrez l'url d'une image représentant <br> votre recette</label>
+    <div class="input-group mb-3">
+      <input type="text" #urlPicture required class="form-control" id="basic-url" aria-describedby="basic-addon3" [(ngModel)]="recette['img']" (click)="resetUrlValidity()" placeholder="Entrez l'url de l'image" name="urlImg">
+    </div>
+    <div class="d-flex flex-column justify-content-center">
+      <p>Aperçu de l'image:</p>
+      <div class="d-flex justify-content-center"  *ngIf="urlPicture.value.length == 0">
+        <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_180034105f0%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_180034105f0%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.4296875%22%20y%3D%22104.5%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" width="200" height="200" alt="..." class="img-thumbnail">
+      </div>
+      <div class="d-flex justify-content-center" *ngIf="urlPicture.value.length != 0">
+        <img [src]="urlPicture.value" (error)="checkUrl()" width="200" height="200" class="img-thumbnail">
+      </div>
+    </div>
+    <button id="buttonSubmit"type="submit" class="btn btn-primary">Submit</button>
+  </form>

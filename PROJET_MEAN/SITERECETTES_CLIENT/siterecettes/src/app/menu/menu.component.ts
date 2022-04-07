@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class MenuComponent implements OnInit {
   public user: Observable<string>;
+  keyword : string = "";
   constructor(private authService: AuthentificationService, private router: Router) {
     this.user = this.authService.getUser();
   }
@@ -21,5 +22,15 @@ export class MenuComponent implements OnInit {
         this.authService.disconnect();
         this.router.navigate(['/main']);
   }
-
+  chercheRecette()
+  {
+    if(this.keyword.length > 0)
+    {
+      this.router.navigate(['recettes', this.keyword]);
+    }
+  }
+  MAJnomCategorie(keyword :string)
+  {
+    this.keyword = keyword;
+  }
 }
