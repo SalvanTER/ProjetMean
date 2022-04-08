@@ -37,4 +37,16 @@ export class RecettesService {
   {
     return this.http.post(this.urlBase+'recette/add', JSON.stringify(recette), httpOptions);
   }
+  likeRecette(coupleRecetteUser:any): Observable<any> 
+  {
+    return this.http.post(this.urlBase+'recette/liked', JSON.stringify(coupleRecetteUser), httpOptions);
+  }
+  unlikeRecette(coupleRecetteUser:any): Observable<any> 
+  {
+    return this.http.post(this.urlBase+'recette/unliked', JSON.stringify(coupleRecetteUser), httpOptions);
+  }
+  commentRecette(contentNewComment:any): Observable<any> 
+  {
+    return this.http.post(this.urlBase+'recette/comment', JSON.stringify(contentNewComment), httpOptions);
+  }
 }

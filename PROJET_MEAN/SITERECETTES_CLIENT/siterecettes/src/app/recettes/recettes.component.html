@@ -23,10 +23,33 @@
         <div class="card-body">
           <h5 class="card-title" style="font-weight: bold; text-align: center;">{{recette['nom']}}</h5>
           <p class="card-text"><span id="ingr">Ingrédients: </span>
-            <div *ngFor="let ingredient of recette['ingredients']">
-              -{{ingredient}}
+            <span *ngFor="let ingredient of recette['ingredients']">
+              {{ingredient}}-  
+              </span>
+          <h6>Auteur : {{recette['author']}}</h6>
+          <form id="form"class="d-flex flex-column justify-content-center" #inscriptionForm="ngForm" ngNativeValidate>
+            <div *ngIf="recette['usersLiked'].includes(currentUser); else elseBlock">
+              <button *ngIf="user|async" type="submit" id="buttonLikeOn" #buttonLikeOn (click)="onClickButtonLikeOn(buttonLikeOn.value)" [value]="recette['id']">
+                Like <span id="nbLike">{{recette["usersLiked"].length}}</span>
+              </button>
             </div>
-          <h6>{{recette['author']}}</h6>
+            <ng-template #elseBlock>
+              <button *ngIf="user|async"  type="submit" id="buttonLikeOff" #buttonLikeOff (click)="onClickButtonLikeOff(buttonLikeOff.value)" [value]="recette['id']">
+                Like <span id="nbLike">{{recette["usersLiked"].length}}</span>
+              </button>
+          </ng-template>
+          <div *ngIf="user|async" id="contentComments">
+            <span *ngFor="let comment of recette['comments']">
+              <span id="pseudoComment">{{comment[0]}}</span>:<span id="comment">{{comment[1]}}</span><br>
+            </span>
+          </div>
+          <div *ngIf="user|async" id="formComment" class="d-flex">
+            <input #textComment id="textComment" type="text">
+            <button #buttonComment type="submit" id="buttonComment"[value]="recette['id']" (click)="onClickButtonComment(textComment.value, buttonComment.value)">
+              Envoyer
+            </button>
+          </div>
+          </form>
         </div>
       </div>
     </div>

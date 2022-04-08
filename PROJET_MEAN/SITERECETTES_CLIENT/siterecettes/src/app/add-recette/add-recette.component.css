@@ -47,3 +47,9 @@ label
     padding: 30px;
     border-radius: 50px;
 }
+#successMsg
+{
+    color: green;
+    margin: 10px;
+    font-weight: bold;
+}

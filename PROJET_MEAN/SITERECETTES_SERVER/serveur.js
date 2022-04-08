@@ -32,7 +32,7 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
         console.log("/3randomRecettes");
         try {
             db.collection("recettes").find().toArray((err, documents) => {
-                res.end(JSON.stringify(_.sampleSize(documents, 3)));
+                res.end(JSON.stringify(documents.slice(-3)));
             });
         } catch(e) {
             console.log("Erreur sur /recettes : " + e);
@@ -119,6 +119,57 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
             .toArray((err, documents) => {
                 db.collection("recettes").insertOne(req.body);
                 });
+        } catch (e) {
+            res.end(JSON.stringify({"resultat": 0, "message": e}));
+        }
+    });
+    /*like*/
+    app.post("/recette/liked", (req,res) => {
+        console.log("like de la recette "+ req.body.id +" par l'utilisateur "+req.body.user);
+        try {
+            db.collection("recettes")
+            .find({id:req.body.id})
+            .toArray((err, documents) => {
+                db.collection("recettes").updateOne(
+                    {id:req.body.id},
+                    {$push:{usersLiked:req.body.user}}
+                );
+            });
+            res.end(JSON.stringify({"resultat": 0, "message": e}));
+        } catch (e) {
+            res.end(JSON.stringify({"resultat": 0, "message": e}));
+        }
+    });
+    /*Unlike*/
+    app.post("/recette/unliked", (req,res) => {
+        console.log("unlike de la recette "+ req.body.id +" par l'utilisateur "+req.body.user);
+        try {
+            db.collection("recettes")
+            .find({id:req.body.id})
+            .toArray((err, documents) => {
+                db.collection("recettes").updateOne(
+                    {id:req.body.id},
+                    {$pull:{usersLiked:req.body.user}}
+                );
+            });
+            res.end(JSON.stringify({"resultat": 0, "message": e}));
+        } catch (e) {
+            res.end(JSON.stringify({"resultat": 0, "message": e}));
+        }
+    });
+    /*Comment*/
+    app.post("/recette/comment", (req,res) => {
+        console.log("ajout du commentaire:"+ req.body.comment +" par l'utilisateur "+req.body.user +" sur la recette :" + req.body.id);
+        try {
+            db.collection("recettes")
+            .find({id:req.body.id})
+            .toArray((err, documents) => {
+                db.collection("recettes").updateOne(
+                    {id:req.body.id},
+                    {$push:{comments:[req.body.user, req.body.comment]}}
+                );
+            });
+            res.end(JSON.stringify({"resultat": 0, "message": e}));
         } catch (e) {
             res.end(JSON.stringify({"resultat": 0, "message": e}));
         }

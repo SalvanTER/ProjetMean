@@ -10,16 +10,16 @@
     <div class="form-group d-flex flex-column justify-content-center">
       <label for="ingredient">Ingrédients:</label>
       <div *ngIf="recette['ingredients']?.length == 0">
-        <p id="errorIngredient">Entrez au moins un ingrédient.</p>
+        <p id="errorIngredient">Ajouter au moins un ingrédient.</p>
       </div>
       <ul>
         <div *ngFor="let ingredient of recette['ingredients']">
           <li>{{ingredient}}</li>
         </div>
       </ul>
-      <input #ingredientField type="text" required class="form-control" id="inputNameIngredient" aria-describedby="emailHelp"  placeholder="Nom de l'ingrédient" name="ingredientNom" >
+      <input #ingredientField type="text" class="form-control" id="inputNameIngredient" aria-describedby="emailHelp"  placeholder="Nom de l'ingrédient" name="ingredientNom" >
       <div class="d-flex justify-content-around">
-        <input id="buttonAdd"  type="button" (click)="addIngredient(ingredientField.value)" value="Ajouter">
+        <input id="buttonAdd"  type="button" (click)="addIngredient(ingredientField)" value="Ajouter">
         <input id="buttonRemove" type="button" (click)="deleteIngredient()" value="Supprimer">
       </div>
     </div>
@@ -36,5 +36,9 @@
         <img [src]="urlPicture.value" (error)="checkUrl()" width="200" height="200" class="img-thumbnail">
       </div>
     </div>
-    <button id="buttonSubmit"type="submit" class="btn btn-primary">Submit</button>
+      <button *ngIf="!recetteAdded" id="buttonSubmit"type="submit" class="btn btn-primary">Submit</button>
+    <div *ngIf="recetteAdded">
+      <p id="successMsg">Recette ajoutée !</p>
+      <a class="nav-link active" routerLink="/main">Retour à la page d'accueil</a >
+    </div>
   </form>

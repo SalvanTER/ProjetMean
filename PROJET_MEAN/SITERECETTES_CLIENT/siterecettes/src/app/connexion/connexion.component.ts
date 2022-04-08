@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AuthentificationService } from '../authentification.service';
 
 @Component({
@@ -13,8 +14,8 @@ export class ConnexionComponent implements OnInit {
   public inscription = {"username" : "", "email" : "", "password" : ""};
   public connexionEchoue = 0;
   public inscriptionStatus = 0;
-  constructor(private authService: AuthentificationService, private router: Router) { }
-
+  constructor(private authService: AuthentificationService, private router: Router) {
+  }
   ngOnInit(): void {
   }
   onSubmitConnexion():void
